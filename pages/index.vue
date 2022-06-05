@@ -8,6 +8,7 @@
             label="Enter amount"
             filled
             @change="search"
+            @keyup="search"
           />
           <v-data-table
             v-model="selectedUsers"
@@ -101,18 +102,60 @@ export default {
       this.amount = val.replace(/[^0-9.]/g, '')
     }
   },
+  mounted () {
+    this.fetchAllProducts()
+  },
   methods: {
-    searchUser () {},
-    open () {},
+    fetchAllProducts () {
+      this.$axios.get('/products')
+        .then((response) => {
+          const products = response.data
+          // foreach product, create an object with the following properties
+          // name, from, to, withdraw_charge, sending_charge
+          products.forEach((product) => {
+            // get product transaction_bands
+            const transactionBands = product.transaction_bands
+            transactionBands.forEach((transactionBand) => {
+              this.products.push({
+                name: product.name,
+                from: transactionBand.from,
+                to: transactionBand.to,
+                withdraw_charge: transactionBand.withdraw_charge,
+                sending_charge: transactionBand.sending_charge
+              })
+            })
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+        // sort the products array by from
+        .finally(() => {
+          this.products.sort((a, b) => {
+            return a.from - b.from
+          })
+        })
+    },
     search () {
+      // if amount is empty, return all products
+      if (this.amount === '') {
+        this.products = []
+        this.fetchAllProducts()
+        return
+      }
       this.$axios
         .get('/search?amount=' + this.amount)
         .then((response) => {
-          console.log(response)
           this.products = response.data
         })
         .catch((error) => {
           console.log(error)
+        })
+        // sort the products array by withdraw_charge
+        .finally(() => {
+          this.products.sort((a, b) => {
+            return a.withdraw_charge < b.withdraw_charge
+          })
         })
     }
   }
