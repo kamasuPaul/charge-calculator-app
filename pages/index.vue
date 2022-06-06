@@ -17,6 +17,9 @@
             :items="products"
             :search="searchQuery"
             class="flex-grow-1"
+            :footer-props="{
+              'items-per-page-options': [30, 50, -1],
+            }"
           >
             <template #[`item.name`]="{ item }">
               <div class="d-flex align-center py-1">
