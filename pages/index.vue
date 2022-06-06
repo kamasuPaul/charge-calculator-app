@@ -18,59 +18,26 @@
             :search="searchQuery"
             class="flex-grow-1"
           >
-            <!-- <template #item.id="{ item }">
-          <div class="font-weight-bold">
-            # {{ item.id }}
-          </div>
-        </template>
+            <template #[`item.name`]="{ item }">
+              <div class="d-flex align-center py-1">
+                <div class="ml-1 caption font-weight-bold">
+                  {{ item.name }}
+                </div>
+              </div>
+            </template>
 
-        <template #item="{ item }">
-          <div class="d-flex align-center py-1">
-            <div class="ml-1 caption font-weight-bold">
-              {{ item.email }}
-            </div>
-          </div>
-        </template>
-
-        <template #item.verified="{ item }">
-          <v-icon v-if="item.verified" small color="success">
-            mdi-check-circle
-          </v-icon>
-          <v-icon v-else small>
-            mdi-circle-outline
-          </v-icon>
-        </template>
-
-        <template #item.disabled="{ item }">
-          <div>{{ item.disabled.toString() | capitalize }}</div>
-        </template>
-
-        <template #item.role="{ item }">
-          <v-chip
-            label
-            small
-            class="font-weight-bold"
-            :color="item.role === 'ADMIN' ? 'primary' : undefined"
-          >
-            {{ item.role | capitalize }}
-          </v-chip>
-        </template>
-
-        <template #item.created="{ item }">
-          <div>{{ item.created }}</div>
-        </template>
-
-        <template #item.lastSignIn="{ item }">
-          <div>{{ item.lastSignIn }}</div>
-        </template>
-
-        <template #item.action="{}">
-          <div class="actions">
-            <v-btn icon to="#">
-              <v-icon>mdi-open-in-new</v-icon>
-            </v-btn>
-          </div>
-        </template> -->
+            <template #[`item.from`]="{ item }">
+              {{ Intl.NumberFormat().format(item.from) }}
+            </template>
+            <template #[`item.to`]="{ item }">
+              {{ Intl.NumberFormat().format(item.to) }}
+            </template>
+            <template #[`item.withdraw_charge`]="{ item }">
+              {{ Intl.NumberFormat().format(item.withdraw_charge) }}
+            </template>
+            <template #[`item.sending_charge`]="{ item }">
+              {{ Intl.NumberFormat().format(item.sending_charge) }}
+            </template>
           </v-data-table>
         </v-card>
       </v-col>
@@ -88,10 +55,10 @@ export default {
       selectedUsers: [],
       headers: [
         { text: 'Product', value: 'name' },
-        { text: 'From', value: 'from' },
-        { text: 'To', align: 'left', value: 'to' },
-        { text: 'Withdraw Charge', value: 'withdraw_charge', sortable: true },
-        { text: 'Sending Charge', value: 'sending_charge', sortable: true }
+        { text: 'From (UGX)', value: 'from' },
+        { text: 'To (UGX)', align: 'left', value: 'to' },
+        { text: 'Withdraw Charge (UGX)', value: 'withdraw_charge', sortable: true },
+        { text: 'Sending Charge (UGX)', value: 'sending_charge', sortable: true }
       ],
       products: [
       ]
