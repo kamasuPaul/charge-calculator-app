@@ -20,13 +20,22 @@
           >
             <template #[`item.name`]="{ item }">
               <div class="d-flex align-center py-1">
-                <div class="ml-1 caption font-weight-bold">
-                  {{ item.name }}
+                <div class="ml-1 caption font-weight-bold yellow-accent-3--text">
+                  <span
+                    :class="item.name==='Airtel Money'?'red--text':'yellow--text'"
+                  >
+                    {{ item.name }}
+                  </span>
                 </div>
               </div>
             </template>
 
-            <template #[`item.from`]="{ item }">
+            <template
+              #[`item.from`]="
+                {
+                  item
+                }"
+            >
               {{ Intl.NumberFormat().format(item.from) }}
             </template>
             <template #[`item.to`]="{ item }">
